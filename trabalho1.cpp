@@ -13,25 +13,6 @@ tem que guardar os arquivos antes de processar, pré-processados e processados.
 
 std::unordered_map<std::string, int> token_dict;
 
-// enum class known_instructions: int {
-//     NOP,    // gambiarra pro enum ficar bonitinho
-//     ADD,    //1op, tamanho 2 //cod = 1
-//     SUB,    //1op, tamanho 2
-//     MULT,   //1op, tamanho 2
-//     DIV,    //1op, tamanho 2
-//     JMP,    //1op, tamanho 2
-//     JMPN,   //1op, tamanho 2
-//     JMPP,   //1op, tamanho 2
-//     JMPZ,   //1op, tamanho 2
-//     COPY,   //2op, tamanho 3
-//     LOAD,   //1op, tamanho 2
-//     STORE,  //1op, tamanho 2
-//     INPUT,  //1op, tamanho 2
-//     OUTPUT, //1op, tamanho 2
-//     STOP    //0op, tamanho 1
-// };
-
-
 std::vector<std::string> known_instructions = {
     "ADD", //1op, tamanho 2 //cod = 1
     "SUB", //1op, tamanho 2
@@ -94,63 +75,50 @@ int main ( int argc, char *argv[] ) {
         std::string line = std::string();
         std::string token, delimiter = " ";
         while (std::getline(file,line)) {
-            token = line.substr(0, line.find(delimiter));
-            line.erase(0, line.find(delimiter)+1);
+            std::cout << "line read = " << line << "\n";
+            token = get_token(line);
+            std::cout << "token identified = " << token << "\n";
             if (token.compare("ADD")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("SUB")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }  
             else if (token.compare("MULT")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("DIV")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("JMP")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("JMPN")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }   
             else if (token.compare("JMPP")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             } 
             else if (token.compare("JMPZ")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("COPY")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);    // 2 args
+                token = get_token(line);    // 2 args
             }
             else if (token.compare("LOAD")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("STORE")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("INPUT")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("OUTPUT")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);
+                token = get_token(line);
             }
             else if (token.compare("STOP")){
-                token = line.substr(0, line.find(delimiter));
-                line.erase(0, line.find(delimiter)+1);    //0 args
+                token = get_token(line);    //0 args
             } else {
                 //throw error (unknown instruction/directive)
             }
