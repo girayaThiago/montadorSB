@@ -13,6 +13,12 @@ tem que guardar os arquivos antes de processar, pré-processados e processados.
 
 std::unordered_map<std::string, int> token_dict;
 
+std::unordered_map<std::string, std::vector<int>> nmt_table; 
+std::unordered_map<std::string, std::vector<int>> ndt_table;
+
+std::unordered_map<std::string, std::vector<int>> symbol_table; // lista de referencias a ocorrências de simbolos
+std::unordered_map<std::string, int> initialized_table; // se um token aparece aqui, então ele foi inicializado, guarda a referencia em "tamanho" onde a variavel é inicializada
+
 std::vector<std::string> known_instructions = {
     "ADD", //1op, tamanho 2 //cod = 1
     "SUB", //1op, tamanho 2
@@ -46,6 +52,8 @@ void init_map(){
     for (auto str : known_instructions){
         token_dict.insert(std::make_pair(str, count++));
     }
+    std::string testkey = "SUB";
+    std::cout << testkey << " = " << token_dict.at(testkey) << "\n";
     return;
 }
 
@@ -59,6 +67,7 @@ std::string get_token(std::string str, std::string delim = " "){
 }
 
 int main ( int argc, char *argv[] ) {
+    init_map();
     std::string filename = "./asm/bin.asm";
     //for (int i  = 0; i < argc; i++) std::cout << "arg[" << i << "] = " << argv[i] << "\n";
     if (argc == 3){
@@ -67,7 +76,7 @@ int main ( int argc, char *argv[] ) {
             std::cout << "yay!\n";
         }
         else {
-            std::cout << "oh no :D\n";
+            std::cout << "unknown flags passed use '-flag \"filename\"' to specify filename" << "\n";
         }
     }
     std::cout << filename << "\n";
@@ -76,6 +85,7 @@ int main ( int argc, char *argv[] ) {
         std::cout << "file is open\n";
         std::string line = std::string();
         
+
         while (std::getline(file,line)) {
             std::cout << "line read = " << line << "\n";
             read_tokens(line);
@@ -91,49 +101,53 @@ int main ( int argc, char *argv[] ) {
 void read_tokens(std::string line){
     std::string token = get_token(line);
             std::cout << "token identified = " << token << "\n";
+            // 
             if (token.compare("ADD")){
                 token = get_token(line);
-            }
-            else if (token.compare("SUB")){
+            } else if (token.compare("SUB")){
                 token = get_token(line);
-            }  
-            else if (token.compare("MULT")){
+            }   else if (token.compare("MULT")){
                 token = get_token(line);
-            }
-            else if (token.compare("DIV")){
+            } else if (token.compare("DIV")){
                 token = get_token(line);
-            }
-            else if (token.compare("JMP")){
+            } else if (token.compare("JMP")){
                 token = get_token(line);
-            }
-            else if (token.compare("JMPN")){
+            } else if (token.compare("JMPN")){
                 token = get_token(line);
-            }   
-            else if (token.compare("JMPP")){
+            } else if (token.compare("JMPP")){
                 token = get_token(line);
-            } 
-            else if (token.compare("JMPZ")){
+            } else if (token.compare("JMPZ")){
                 token = get_token(line);
-            }
-            else if (token.compare("COPY")){
+            } else if (token.compare("COPY")){
                 token = get_token(line);    // 2 args
-            }
-            else if (token.compare("LOAD")){
+            } else if (token.compare("LOAD")){
                 token = get_token(line);
-            }
-            else if (token.compare("STORE")){
+            } else if (token.compare("STORE")){
                 token = get_token(line);
-            }
-            else if (token.compare("INPUT")){
+            } else if (token.compare("INPUT")){
                 token = get_token(line);
-            }
-            else if (token.compare("OUTPUT")){
+            } else if (token.compare("OUTPUT")){
                 token = get_token(line);
-            }
-            else if (token.compare("STOP")){
+            } else if (token.compare("STOP")){
                 token = get_token(line);    //0 args
+
+            //DIRETIVAS
+            } else if(token.compare("SECTION")){
+                
+            } else if(token.compare("SPACE")){
+                
+            } else if(token.compare("CONST")){
+                
+            } else if(token.compare("EQU")){
+                
+            } else if(token.compare("IF")){
+                
+            } else if(token.compare("MACRO")){
+                
+            } else if(token.compare("ENDMACRO")){
+               
             } else if(token[0] == ';'){
-                // comentary consume line till \n
+                
             } else {
                 //throw error (unknown instruction/directive)
             }
