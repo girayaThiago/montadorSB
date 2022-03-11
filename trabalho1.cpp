@@ -40,7 +40,7 @@ std::vector<std::string> known_directives = {
     "ENDMACRO"//0op, tamanho 0
 };
 
-
+/// initializes map with word:code pair
 void init_map(){
     int count = 1;
     for (auto str : known_instructions){
@@ -49,6 +49,8 @@ void init_map(){
     return;
 }
 
+
+/// Extracts next word from current line. TODO: expected number of arguments? (this could be useful to throw errors)
 std::string get_token(std::string str, std::string delim = " "){
     std::size_t pos = str.find(delim);
     std::string token = str.substr(0, pos);
@@ -73,10 +75,21 @@ int main ( int argc, char *argv[] ) {
     if (file.is_open()){
         std::cout << "file is open\n";
         std::string line = std::string();
-        std::string token, delimiter = " ";
+        
         while (std::getline(file,line)) {
             std::cout << "line read = " << line << "\n";
-            token = get_token(line);
+            read_tokens(line);
+        }
+        
+        file.close();
+    } else {
+        std::cout << "file couldn't be opened\n";
+    }
+    return 0;
+}
+
+void read_tokens(std::string line){
+    std::string token = get_token(line);
             std::cout << "token identified = " << token << "\n";
             if (token.compare("ADD")){
                 token = get_token(line);
@@ -119,14 +132,9 @@ int main ( int argc, char *argv[] ) {
             }
             else if (token.compare("STOP")){
                 token = get_token(line);    //0 args
+            } else if(token[0] == ';'){
+                // comentary consume line till \n
             } else {
                 //throw error (unknown instruction/directive)
             }
-        }
-        
-        file.close();
-    } else {
-        std::cout << "file couldn't be opened\n";
-    }
-    return 0;
 }
